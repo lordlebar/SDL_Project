@@ -22,31 +22,32 @@ constexpr unsigned frame_boundary = 100;
 
 // Helper function to initialize SDL
 void init();
+SDL_Surface* load_surface_for(const std::string& path, SDL_Surface* window_surface_ptr);
 
 class animal {
-private:
+protected:
   SDL_Surface* window_surface_ptr_; // ptr to the surface on which we want the
                                     // animal to be drawn, also non-owning
   SDL_Surface* image_ptr_; // The texture of the sheep (the loaded image), use
                            // load_surface_for
   // todo: Attribute(s) to define its position
-  int posX_init = 700;
-  int posY_init = 450;
+  int posX_;
+  int posY_;
+  bool horizontal_direction_;
+  bool vertical_direction_;
 
 public:
-  animal(const std::string& file_path, SDL_Surface* window_surface_ptr){
-    
-  };
+  animal(const std::string& file_path, SDL_Surface* window_surface_ptr, bool horizontal_direction, bool vertical_direction);
   // todo: The constructor has to load the sdl_surface that corresponds to the
   // texture
-  ~animal(); // todo: Use the destructor to release memory and "clean up
+  virtual ~animal() = default; // todo: Use the destructor to release memory and "clean up
                // behind you"
 
-  void draw(); // todo: Draw the animal on the screen <-> window_surface_ptr.
+  void draw() const; // todo: Draw the animal on the screen <-> window_surface_ptr.
                  // Note that this function is not virtual, it does not depend
                  // on the static type of the instance
 
-  virtual void move(){}; // todo: Animals move around, but in a different
+  virtual void move() = 0; // todo: Animals move around, but in a different
                              // fashion depending on which type of animal
 };
 
@@ -54,12 +55,12 @@ public:
 // Insert here:
 // class sheep, derived from animal
 class sheep : public animal {
-  // todo
+public:
   // Ctor
-  sheep(const std::string& file_path, SDL_Surface* window_surface_ptr) : animal(file_path, window_surface_ptr){};
+  sheep(const std::string& file_path, SDL_Surface* window_surface_ptr);
   // Dtor
-  ~sheep(){};
-  // implement functions that are purely virtual in base class
+  ~sheep() override;
+  // move function for the sheep
   void move() override;
 };
 
@@ -68,13 +69,11 @@ class sheep : public animal {
 // Use only sheep at first. Once the application works
 // for sheep you can add the wolves
 class wolf : public animal {
-  // Ctor
-  wolf(const std::string& file_path, SDL_Surface* window_surface_ptr) : animal(file_path, window_surface_ptr){};
-  // Dtor
-  ~wolf();
-  // implement functions that are purely virtual in base class
+public:
+  wolf(const std::string& file_path, SDL_Surface* window_surface_ptr);
+  ~wolf() override;
   void move() override;
-}
+};
 
 // The "ground" on which all the animals live (like the std::vector
 // in the zoo example).
@@ -89,11 +88,16 @@ private:
   unsigned frame = 0;
 
 public:
-  ground(SDL_Surface* window_surface_ptr); // todo: Ctor
-  ~ground(){}; // todo: Dtor, again for clean up (if necessary)
-  void add_animal(std::unique_ptr<animal> ptr_animal); // todo: Add an animal
-  void update(); // todo: "refresh the screen": Move animals and draw them
+  // todo: Ctor
+  ground();
+  // todo: Dtor, again for clean up (if necessary)
+  ~ground() = default;
+  // todo: Add an animal
+  void add_animal(const std::shared_ptr<animal>& a);
+   // todo: "refresh the screen": Move animals and draw them
+  void update() const;
   // Possibly other methods, depends on your implementation
+  [[nodiscard]] std::vector<std::shared_ptr<animal>> getAnimals() const;
 };
 
 
@@ -110,8 +114,11 @@ private:
   // Other attributes here, for example an instance of ground
 
 public:
-  application(unsigned n_sheep, unsigned n_wolf); // Ctor
-  ~application();                                 // dtor
+  // Ctor
+  application(unsigned n_sheep, unsigned n_wolf);
+
+  // dtor
+  ~application();
 
   int loop(unsigned period); // main loop of the application.
                              // this ensures that the screen is updated
