@@ -1,0 +1,4 @@
+*.DS_Store
+test_SDL
+test_SDL.zip
+*.build
