@@ -28,6 +28,36 @@ void init() {
                              std::string(IMG_GetError()));
 }
 
+bool check_collision(SDL_Rect &first, SDL_Rect &second){
+
+  int left_first = first.x;
+  int left_second = second.x;
+
+  int right_first = first.x + first.w;
+  int right_second = second.x + second.w;
+
+  int top_first = first.y;
+  int top_second = second.y;
+
+  int bot_first = first.y + first.h;
+  int bot_second = second.y + second.h;
+
+  if ( bot_first <= top_second ) {
+    return false;
+  }
+  if ( top_first >= bot_second ){
+    return false;
+  }
+  if ( right_first <= left_second ){
+    return false;
+  }
+  if ( left_first >= right_second ){
+    return false;
+  }
+  return true;
+  
+}
+
 SDL_Surface* load_surface_for(const std::string& path, SDL_Surface* window_surface_ptr) {
 
   if (!window_surface_ptr){
@@ -37,7 +67,7 @@ SDL_Surface* load_surface_for(const std::string& path, SDL_Surface* window_surfa
 
   int length = (int)path.length();
   char new_file_path[length];
-  strcpy(new_file_path, path.c_str()); // we have successfully converted our string into an array of char.
+  strcpy(new_file_path, path.c_str());
 
   SDL_Surface* surf = SDL_ConvertSurface(IMG_Load(new_file_path), window_surface_ptr->format, 0);
   if (!surf){
@@ -67,7 +97,6 @@ void animal::draw() const
       return;
     }
 
-    //These two next lines are used to get rid of the PNG backgrounds
     Uint32 color_key = SDL_MapRGB(image_ptr_->format, 0, 0, 0);
     SDL_SetColorKey(image_ptr_, SDL_TRUE, color_key);
     SDL_Rect sheep_rect;
@@ -83,7 +112,7 @@ void sheep::move(){
     int surface_width = image_ptr_->clip_rect.w;
     int surface_height = image_ptr_->clip_rect.h;
 
-    if (posY_ >= frame_height - frame_boundary - surface_height)
+    if (posY_ >= frame_height - frame_boundary - surface_height )
       vertical_direction_ = false;
 
     if (posY_ <= frame_boundary)
@@ -96,23 +125,22 @@ void sheep::move(){
       horizontal_direction_ = true;
 
     if (vertical_direction_)
-      posY_+=1;
+      posY_+=0.4 + rand() % 2;
 
     if (!vertical_direction_)
-      posY_-=1;
+      posY_-=0.4 + rand() % 1;
 
     if (horizontal_direction_)
-      posX_+=1;
+      posX_+=0.4 + rand() % 2;
 
     if (!horizontal_direction_)
-      posX_-=1;
+      posX_-=0.4 + rand() % 1;
 };
 
 sheep::~sheep(){
     SDL_FreeSurface(image_ptr_);
-    std::cout << "Le mouton a disparu !" << std::endl;
+    std::cout << "Le mouton a disparu" << std::endl;
 };
-
 
 wolf::wolf(const std::string& file_path, SDL_Surface* window_surface_ptr) : animal(file_path, window_surface_ptr, false, false){}
 
@@ -125,34 +153,46 @@ void wolf::move()
 {
     int surface_width = image_ptr_->clip_rect.w;
     int surface_height = image_ptr_->clip_rect.h;
+    auto target = sheeps_[0];
+    float min = MAXFLOAT;
 
-    if (posY_ >= frame_height - frame_boundary - surface_height)
+    for (int i = 0; i < sheeps_.size(); i++){
+      if (sqrt( pow((posX_ - sheeps_[i]->posX_), 2) + pow((posY_ - sheeps_[i]->posY_), 2))  < min ){
+        min = sqrt( pow((posX_ - sheeps_[i]->posX_), 2) + pow((posY_ - sheeps_[i]->posY_), 2));
+        std::cout << min << std::endl;
+        target = sheeps_[i];
+      }
+    }
+
+    if (posY_ >= target->posY_ - surface_height)
       vertical_direction_ = false;
 
-    if (posY_ <= frame_boundary)
+    if (posY_ <= target->posY_ + surface_height)
       vertical_direction_ = true;
 
-    if (posX_ >= frame_width - frame_boundary - surface_width)
+    if (posX_ >= target->posX_ - surface_width)
       horizontal_direction_ = false;
 
-    if (posX_ <= frame_boundary)
+    if (posX_ <= target->posX_ + surface_width)
       horizontal_direction_ = true;
-
+    
     if (vertical_direction_)
-      posY_+=1;
-
+      posY_+=0.4 + rand() % 2;
     else
-      posY_-=1;
-
+      posY_-=0.3 + rand() % 1;
     if (horizontal_direction_)
-      posX_+=1;
+      posX_+=0.3 + rand() % 2;
     else
-      posX_-=1;
-};
+      posX_-=0.3 + rand() % 1;
+}
+
+void wolf::addListOfSheeps(std::shared_ptr<animal> &sheep){
+  sheeps_.push_back(sheep); 
+}
 
 ground::ground() : animals_{std::vector<std::shared_ptr<animal>>()}{}
 
-void ground::add_animal(const std::shared_ptr<animal>& a) {
+void ground::add_animal(const std::shared_ptr<animal>& a) {    
     animals_.push_back(a);
 }
 
@@ -169,7 +209,7 @@ void ground::update() const {
 
 application::application(unsigned int n_sheep, unsigned int n_wolf) {
 
-    // srand((unsigned)time(nullptr));
+    srand((unsigned)time(nullptr));
 
     window_ptr_ = SDL_CreateWindow("Sheep vs Wolf", SDL_WINDOWPOS_CENTERED,
                                   SDL_WINDOWPOS_CENTERED, frame_width, frame_height, 0 /* Nada */);
@@ -184,19 +224,24 @@ application::application(unsigned int n_sheep, unsigned int n_wolf) {
     std::string sheep_path = "../../media/sheep.png";
     std::string wolf_path = "../../media/wolf.png";
 
-
-    //let's make things colorful.
     SDL_FillRect(window_surface_ptr_ ,nullptr, SDL_MapRGB(window_surface_ptr_->format,0,127,0));
+
+    // create empty list
+    std::vector<std::shared_ptr<animal>> tmpsheeps;
 
     for (int i = 0; i < n_sheep; i++) {
       auto s = std::make_shared<sheep>(sheep_path, window_surface_ptr_);
       ground_.add_animal(s);
+      tmpsheeps.push_back(s);
       s->draw();
     }
 
     for (int i = 0; i < n_wolf; i++){
       auto s = std::make_shared<wolf>(wolf_path, window_surface_ptr_);
       ground_.add_animal(s);
+      for (int j = 0; j < n_sheep; j++){
+        s->addListOfSheeps(tmpsheeps[j]);
+      }
       s->draw();
     }
     SDL_UpdateWindowSurface(window_ptr_);
@@ -216,11 +261,10 @@ int application::loop(unsigned period) {
 
     Uint32 currentTime = 0;
     int lastTime = 0;
-    auto zoo = ground_.getAnimals();
+    auto map = ground_.getAnimals();
 
     while (currentTime <= period) {
 
-      //This terminates the application, if we... try to close it
       while (SDL_PollEvent(&window_event_))
         if (window_event_.type == SDL_QUIT)
           return 0;

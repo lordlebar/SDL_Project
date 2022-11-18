@@ -25,14 +25,14 @@ void init();
 SDL_Surface* load_surface_for(const std::string& path, SDL_Surface* window_surface_ptr);
 
 class animal {
-protected:
+public:
   SDL_Surface* window_surface_ptr_; // ptr to the surface on which we want the
                                     // animal to be drawn, also non-owning
   SDL_Surface* image_ptr_; // The texture of the sheep (the loaded image), use
                            // load_surface_for
   // todo: Attribute(s) to define its position
-  int posX_;
-  int posY_;
+  float posX_;
+  float posY_;
   bool horizontal_direction_;
   bool vertical_direction_;
 
@@ -70,9 +70,11 @@ public:
 // for sheep you can add the wolves
 class wolf : public animal {
 public:
-  wolf(const std::string& file_path, SDL_Surface* window_surface_ptr);
+  std::vector<std::shared_ptr<animal>> sheeps_ = {}; 
+  wolf(const std::string& file_path, SDL_Surface* window_surface_ptr); 
   ~wolf() override;
   void move() override;
+  void addListOfSheeps(std::shared_ptr<animal> &sheep); 
 };
 
 // The "ground" on which all the animals live (like the std::vector
@@ -127,3 +129,5 @@ public:
                              // duration the application should terminate after
                              // 'period' seconds
 };
+
+bool check_collision(SDL_Rect &first, SDL_Rect &second);
