@@ -69,11 +69,9 @@ public:
 // for sheep you can add the wolves
 class wolf : public animal {
 public:
-  std::vector<std::shared_ptr<animal>> sheeps_ = {}; 
-  wolf(const std::string& file_path, SDL_Surface* window_surface_ptr); 
+  wolf(const std::string& file_path, SDL_Surface* window_surface_ptr);
   ~wolf() override;
   void move() override;
-  void addListOfSheeps(std::shared_ptr<animal> &sheep); 
 };
 
 // The "ground" on which all the animals live (like the std::vector
@@ -101,7 +99,11 @@ public:
   [[nodiscard]] std::vector<std::shared_ptr<animal>> getAnimals() const;
 };
 
-
+class GameController{
+    GameController(sheep sheep_, wolf wolf_);
+    ~GameController() = default;
+    void run();
+};
 
 // The application class, which is in charge of generating the window
 class application {
