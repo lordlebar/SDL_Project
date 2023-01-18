@@ -78,33 +78,8 @@ SDL_Surface* load_surface_for(const std::string& path, SDL_Surface* window_surfa
   return (surf);
 }
 
-animal::animal(const std::string &file_path, SDL_Surface *window_surface_ptr, bool horizontal_direction, bool vertical_direction)
-    : window_surface_ptr_{window_surface_ptr}, horizontal_direction_{horizontal_direction}, vertical_direction_{vertical_direction}{
-    
-    image_ptr_ = load_surface_for(file_path, window_surface_ptr);
-    if (image_ptr_ == nullptr)
-        throw std::runtime_error("animal::animal(): " + std::string(SDL_GetError()));
-    
-    // Set random position of the animal
-    posX_ = rand() % (frame_width - frame_boundary - image_ptr_->w) + frame_boundary;
-    posY_ = rand() % (frame_height - frame_boundary - image_ptr_->h) + frame_boundary;
-};
 
-void animal::draw() const
-{
-    if (window_surface_ptr_ == nullptr || image_ptr_ == nullptr){
-      std::cout << "pointers error" << std::endl;
-      return;
-    }
 
-    Uint32 color_key = SDL_MapRGB(image_ptr_->format, 0, 0, 0);
-    SDL_SetColorKey(image_ptr_, SDL_TRUE, color_key);
-    SDL_Rect sheep_rect;
-    sheep_rect.x = posX_;
-    sheep_rect.y = posY_;
-
-    SDL_BlitSurface(image_ptr_, nullptr, window_surface_ptr_, &sheep_rect);
-};
 
 sheep::sheep(const std::string& file_path, SDL_Surface* window_surface_ptr) : animal(file_path, window_surface_ptr, true, true){}
 
@@ -238,89 +213,6 @@ void animal::draw() const
     SDL_BlitSurface(image_ptr_, nullptr, window_surface_ptr_, &sheep_rect);
 };
 
-sheep::sheep(const std::string& file_path, SDL_Surface* window_surface_ptr) : animal(file_path, window_surface_ptr, true, true){}
-
-void sheep::move(){
-    int surface_width = image_ptr_->clip_rect.w;
-    int surface_height = image_ptr_->clip_rect.h;
-
-    if (posY_ >= frame_height - frame_boundary - surface_height )
-      vertical_direction_ = false;
-
-    if (posY_ <= frame_boundary)
-      vertical_direction_ = true;
-
-    if (posX_ >= frame_width - frame_boundary - surface_width)
-      horizontal_direction_ = false;
-
-    if (posX_ <= frame_boundary)
-      horizontal_direction_ = true;
-
-    if (vertical_direction_)
-      posY_+=0.4 + rand() % 2;
-
-    if (!vertical_direction_)
-      posY_-=0.4 + rand() % 1;
-
-    if (horizontal_direction_)
-      posX_+=0.4 + rand() % 2;
-
-    if (!horizontal_direction_)
-      posX_-=0.4 + rand() % 1;
-};
-
-sheep::~sheep(){
-    SDL_FreeSurface(image_ptr_);
-    std::cout << "Le mouton a disparu" << std::endl;
-};
-
-wolf::wolf(const std::string& file_path, SDL_Surface* window_surface_ptr) : animal(file_path, window_surface_ptr, false, false){}
-
-wolf::~wolf() {
-  std::cout << "Le loup n'est plus la !" << std::endl;
-  SDL_FreeSurface(image_ptr_);
-}
-
-void wolf::move()
-{
-    int surface_width = image_ptr_->clip_rect.w;
-    int surface_height = image_ptr_->clip_rect.h;
-    auto target = sheeps_[0];
-    float min = MAXFLOAT;
-
-    for (int i = 0; i < sheeps_.size(); i++){
-      if (sqrt( pow((posX_ - sheeps_[i]->posX_), 2) + pow((posY_ - sheeps_[i]->posY_), 2))  < min ){
-        min = sqrt( pow((posX_ - sheeps_[i]->posX_), 2) + pow((posY_ - sheeps_[i]->posY_), 2));
-        std::cout << min << std::endl;
-        target = sheeps_[i];
-      }
-    }
-
-    if (posY_ >= target->posY_ - surface_height)
-      vertical_direction_ = false;
-
-    if (posY_ <= target->posY_ + surface_height)
-      vertical_direction_ = true;
-
-    if (posX_ >= target->posX_ - surface_width)
-      horizontal_direction_ = false;
-
-    if (posX_ <= target->posX_ + surface_width)
-      horizontal_direction_ = true;
-    
-    if (vertical_direction_)
-      posY_+=0.4 + rand() % 2;
-    else
-      posY_-=0.3 + rand() % 1;
-    if (horizontal_direction_)
-      posX_+=0.3 + rand() % 2;
-    else
-      posX_-=0.3 + rand() % 1;
-}
-
-void wolf::addListOfSheeps(std::shared_ptr<animal> &sheep){
-  sheeps_.push_back(sheep); 
-}
 
 ground::ground() : animals_{std::vector<std::shared_ptr<animal>>()}{}
 

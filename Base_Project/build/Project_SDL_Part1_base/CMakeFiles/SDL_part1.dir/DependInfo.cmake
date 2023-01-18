@@ -1,18 +1,15 @@
+
+# Consider dependencies only in project.
+set(CMAKE_DEPENDS_IN_PROJECT_ONLY OFF)
+
 # The set of languages for which implicit dependencies are needed:
 set(CMAKE_DEPENDS_LANGUAGES
-  "CXX"
   )
-# The set of files for implicit dependencies of each language:
-set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/adrienne/Bureau/Etudes/C++/SDL_Project/Base_Project/Project_SDL_Part1_base/Project_SDL1.cpp" "/home/adrienne/Bureau/Etudes/C++/SDL_Project/Base_Project/build/Project_SDL_Part1_base/CMakeFiles/SDL_part1.dir/Project_SDL1.cpp.o"
-  "/home/adrienne/Bureau/Etudes/C++/SDL_Project/Base_Project/Project_SDL_Part1_base/main.cpp" "/home/adrienne/Bureau/Etudes/C++/SDL_Project/Base_Project/build/Project_SDL_Part1_base/CMakeFiles/SDL_part1.dir/main.cpp.o"
-  )
-set(CMAKE_CXX_COMPILER_ID "GNU")
 
-# The include file search paths:
-set(CMAKE_CXX_TARGET_INCLUDE_PATH
-  "/usr/include/SDL2"
-  "/usr/include/SDL2_image"
+# The set of dependency files which are needed:
+set(CMAKE_DEPENDS_DEPENDENCY_FILES
+  "/home/corentin/Desktop/SDL_Project/Base_Project/Project_SDL_Part1_base/Project_SDL1.cpp" "Project_SDL_Part1_base/CMakeFiles/SDL_part1.dir/Project_SDL1.cpp.o" "gcc" "Project_SDL_Part1_base/CMakeFiles/SDL_part1.dir/Project_SDL1.cpp.o.d"
+  "/home/corentin/Desktop/SDL_Project/Base_Project/Project_SDL_Part1_base/main.cpp" "Project_SDL_Part1_base/CMakeFiles/SDL_part1.dir/main.cpp.o" "gcc" "Project_SDL_Part1_base/CMakeFiles/SDL_part1.dir/main.cpp.o.d"
   )
 
 # Targets to which this target links.
