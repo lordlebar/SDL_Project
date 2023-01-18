@@ -38,6 +38,8 @@
     "type_traits": "cpp",
     "tuple": "cpp",
     "typeinfo": "cpp",
-    "utility": "cpp"
-  }
+    "utility": "cpp",
+    "ctime": "cpp"
+  },
+  "C_Cpp.errorSquiggles": "disabled"
 }
