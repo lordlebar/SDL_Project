@@ -35,6 +35,7 @@ public:
   float posY_;
   bool horizontal_direction_;
   bool vertical_direction_;
+  bool is_alive = true;
 
 public:
   animal(const std::string& file_path, SDL_Surface* window_surface_ptr, bool horizontal_direction, bool vertical_direction);
@@ -73,7 +74,7 @@ public:
   wolf(const std::string& file_path, SDL_Surface* window_surface_ptr); 
   ~wolf() override;
   void move() override;
-  void addListOfSheeps(std::shared_ptr<animal> &sheep); 
+  void addListOfSheeps(std::shared_ptr<animal> &sheep);
 };
 
 // The "ground" on which all the animals live (like the std::vector

@@ -66,7 +66,7 @@ SDL_Surface* load_surface_for(const std::string& path, SDL_Surface* window_surfa
 
   int length = (int)path.length();
   char new_file_path[length];
-  std:strcpy(new_file_path, path.c_str());
+  strcpy(new_file_path, path.c_str());
 
 
   SDL_Surface* surf = SDL_ConvertSurface(IMG_Load(new_file_path), window_surface_ptr->format, 0);
@@ -143,13 +143,13 @@ void wolf::move()
 {
     int surface_width = image_ptr_->clip_rect.w;
     int surface_height = image_ptr_->clip_rect.h;
-    auto target = sheeps_[0];
+    auto target = std::shared_ptr(sheeps_[0]);
     float min = MAXFLOAT;
 
     for (int i = 0; i < sheeps_.size(); i++){
       if (sqrt( pow((posX_ - sheeps_[i]->posX_), 2) + pow((posY_ - sheeps_[i]->posY_), 2))  < min ){
         min = sqrt( pow((posX_ - sheeps_[i]->posX_), 2) + pow((posY_ - sheeps_[i]->posY_), 2));
-        target = sheeps_[i];
+        target = std::shared_ptr(sheeps_[i]);
       }
     }
 
@@ -174,9 +174,17 @@ void wolf::move()
     else
       posX_ -= 0.5;
 
+    if(!target->is_alive){
+        sheeps_.erase(std::remove(sheeps_.begin(), sheeps_.end(), target), sheeps_.end());
+      }
+    if (sheeps_.size() == 0) {
+        std::cout << "Game Over" << std::endl;
+        exit(0);
+      }
     if (min < 50) {
-      target->~animal();
+      std::cout << "Mouton mangé" << std::endl;
       sheeps_.erase(std::remove(sheeps_.begin(), sheeps_.end(), target), sheeps_.end());
+      target->is_alive = false;
     }
 }
 
@@ -226,7 +234,7 @@ std::vector<std::shared_ptr<animal>> ground::getAnimals() const {
 
 void ground::update() const {
     for (const auto& a : animals_) {
-      if (a != nullptr) {
+      if (a->is_alive) {
           a->move();
           a->draw();
       };
