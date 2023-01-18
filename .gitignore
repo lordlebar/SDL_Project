@@ -1,3 +1,9 @@
 ./test_SDL/
 ./Base_Project/build
 node_modules
+*.DS_Store
+test_SDL
+test_SDL.zip
+*.CMakeFiles
+*.build
+
