@@ -56,12 +56,11 @@ public:
 // class sheep, derived from animal
 class sheep : public animal {
 public:
-  // Ctor
+  std::vector<std::shared_ptr<animal>> wolfs_ = {};
   sheep(const std::string& file_path, SDL_Surface* window_surface_ptr);
-  // Dtor
   ~sheep() override;
-  // move function for the sheep
   void move() override;
+  void addListOfWolfs(std::shared_ptr<animal> &sheep);
 };
 
 // Insert here:

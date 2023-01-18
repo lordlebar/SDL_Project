@@ -11,19 +11,20 @@ int main(int argc, char* argv[]) {
                              "number of sheep, number of wolves, "
                              "simulation time\n");
 
+  if (std::stoul(argv[1]) + std::stoul(argv[2]) <= 0)
+    throw std::runtime_error("We need at least one animal in our zoo! \n");
+
   init();
 
-  std::cout << "Done with initilization" << std::endl;
+  std::cout << "Done with initialization" << std::endl;
 
   application my_app(std::stoul(argv[1]), std::stoul(argv[2]));
 
   std::cout << "Created window" << std::endl;
 
-  int retval = my_app.loop(std::stoul(argv[3]));
+  int ret_val = my_app.loop(std::stoul(argv[3]));
 
-  std::cout << "Exiting application with code " << retval << std::endl;
+  std::cout << "Exiting application with code " << ret_val << std::endl;
 
-  SDL_Quit();
-
-  return retval;
+  return ret_val;
 }
