@@ -1,5 +1,6 @@
 ./test_SDL/
 ./Base_Project/build
+./Base_Project/Project_SDL_Part1_base/build
 node_modules
 *.DS_Store
 test_SDL

@@ -22,14 +22,15 @@ constexpr unsigned frame_boundary = 100;
 
 // Helper function to initialize SDL
 void init();
-SDL_Surface* load_surface_for(const std::string& path, SDL_Surface* window_surface_ptr);
+SDL_Surface *load_surface_for(const std::string &path, SDL_Surface *window_surface_ptr);
 
-class animal {
+class animal
+{
 public:
-  SDL_Surface* window_surface_ptr_; // ptr to the surface on which we want the
+  SDL_Surface *window_surface_ptr_; // ptr to the surface on which we want the
                                     // animal to be drawn, also non-owning
-  SDL_Surface* image_ptr_; // The texture of the sheep (the loaded image), use
-                           // load_surface_for
+  SDL_Surface *image_ptr_;          // The texture of the sheep (the loaded image), use
+                                    // load_surface_for
   // todo: Attribute(s) to define its position
   float posX_;
   float posY_;
@@ -38,27 +39,55 @@ public:
   bool is_alive = true;
 
 public:
-  animal(const std::string& file_path, SDL_Surface* window_surface_ptr, bool horizontal_direction, bool vertical_direction);
+  animal(const std::string &file_path, SDL_Surface *window_surface_ptr, bool horizontal_direction, bool vertical_direction);
   // todo: The constructor has to load the sdl_surface that corresponds to the
   // texture
   virtual ~animal() = default; // todo: Use the destructor to release memory and "clean up
-               // behind you"
+                               // behind you"
 
   void draw() const; // todo: Draw the animal on the screen <-> window_surface_ptr.
-                 // Note that this function is not virtual, it does not depend
-                 // on the static type of the instance
+                     // Note that this function is not virtual, it does not depend
+                     // on the static type of the instance
 
   virtual void move() = 0; // todo: Animals move around, but in a different
-                             // fashion depending on which type of animal
+                           // fashion depending on which type of animal
 };
 
+// Insert here:
+// class playable_character
+class playable_character
+{
+public:
+  SDL_Surface *window_surface_ptr_; // ptr to the surface on which we want the
+                                    // animal to be drawn, also non-owning
+  SDL_Surface *image_ptr_;          // The texture of the sheep (the loaded image), use
+                                    // load_surface_for
+  float posX_;
+  float posY_;
+
+  playable_character(const std::string &file_path, SDL_Surface *window_surface_ptr);
+  virtual ~playable_character() = default;
+  void draw() const;
+  virtual void move(const Uint8 *keystate) = 0;
+};
+
+// Insert here:
+// class shepherd, derived from playable_character
+class shepherd : public playable_character
+{
+public:
+  shepherd(const std::string &file_path, SDL_Surface *window_surface_ptr);
+  ~shepherd() override;
+  void move(const Uint8 *keystate) override;
+};
 
 // Insert here:
 // class sheep, derived from animal
-class sheep : public animal {
+class sheep : public animal
+{
 public:
   std::vector<std::shared_ptr<animal>> wolfs_ = {};
-  sheep(const std::string& file_path, SDL_Surface* window_surface_ptr);
+  sheep(const std::string &file_path, SDL_Surface *window_surface_ptr);
   ~sheep() override;
   void move() override;
   void addListOfWolfs(std::shared_ptr<animal> &sheep);
@@ -68,26 +97,47 @@ public:
 // class wolf, derived from animal
 // Use only sheep at first. Once the application works
 // for sheep you can add the wolves
-class wolf : public animal {
+class wolf : public animal
+{
 public:
-  std::vector<std::shared_ptr<animal>> sheeps_ = {}; 
-  wolf(const std::string& file_path, SDL_Surface* window_surface_ptr); 
+  float hunger_ = 100;
+  std::shared_ptr<animal> shepherd_dog_ = nullptr;
+  std::vector<std::shared_ptr<animal>> sheeps_ = {};
+  wolf(const std::string &file_path, SDL_Surface *window_surface_ptr);
   ~wolf() override;
   void move() override;
   void addListOfSheeps(std::shared_ptr<animal> &sheep);
+  void addShepherdDog(std::shared_ptr<animal> &shepherd_dog);
+};
+
+// Insert here:
+// class shepherd_dog derived from animal
+class shepherd_dog : public animal
+{
+public:
+  float angle_ = 0;
+  std::shared_ptr<playable_character> shepherd_ = nullptr;
+  shepherd_dog(const std::string &file_path, SDL_Surface *window_surface_ptr);
+  ~shepherd_dog() override;
+  void move() override;
+  void addShepherd(std::shared_ptr<playable_character> &shepherd);
 };
 
 // The "ground" on which all the animals live (like the std::vector
 // in the zoo example).
-class ground {
+class ground
+{
 private:
   // Attention, NON-OWNING ptr, again to the screen
-  SDL_Surface* window_surface_ptr_;
+  SDL_Surface *window_surface_ptr_;
 
   // Some attribute to store all the wolves and sheep
   // here
   std::vector<std::shared_ptr<animal>> animals_;
   unsigned frame = 0;
+
+  // Playable character
+  std::shared_ptr<playable_character> shepherd_;
 
 public:
   // todo: Ctor
@@ -95,21 +145,23 @@ public:
   // todo: Dtor, again for clean up (if necessary)
   ~ground() = default;
   // todo: Add an animal
-  void add_animal(const std::shared_ptr<animal>& a);
-   // todo: "refresh the screen": Move animals and draw them
+  void add_animal(const std::shared_ptr<animal> &a);
+  // add a shepherd
+  void add_shepherd(const std::shared_ptr<playable_character> &s);
+  // todo: "refresh the screen": Move animals and draw them
   void update() const;
   // Possibly other methods, depends on your implementation
   [[nodiscard]] std::vector<std::shared_ptr<animal>> getAnimals() const;
+  [[nodiscard]] std::shared_ptr<playable_character> getShepherd() const;
 };
 
-
-
 // The application class, which is in charge of generating the window
-class application {
+class application
+{
 private:
   // The following are OWNING ptrs
-  SDL_Window* window_ptr_;
-  SDL_Surface* window_surface_ptr_;
+  SDL_Window *window_ptr_;
+  SDL_Surface *window_surface_ptr_;
   SDL_Event window_event_;
   ground ground_;
 
@@ -129,5 +181,3 @@ public:
                              // duration the application should terminate after
                              // 'period' seconds
 };
-
-bool check_collision(SDL_Rect &first, SDL_Rect &second);

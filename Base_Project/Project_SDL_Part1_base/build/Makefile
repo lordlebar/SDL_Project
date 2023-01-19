@@ -57,10 +57,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/corentin/Desktop/SDL_Project/Base_Project/Project_SDL_Part1_base
+CMAKE_SOURCE_DIR = /home/amine/epita/SDL_Project/Base_Project/Project_SDL_Part1_base
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/corentin/Desktop/SDL_Project/Base_Project/Project_SDL_Part1_base/build
+CMAKE_BINARY_DIR = /home/amine/epita/SDL_Project/Base_Project/Project_SDL_Part1_base/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -87,9 +87,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/corentin/Desktop/SDL_Project/Base_Project/Project_SDL_Part1_base/build/CMakeFiles /home/corentin/Desktop/SDL_Project/Base_Project/Project_SDL_Part1_base/build//CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/amine/epita/SDL_Project/Base_Project/Project_SDL_Part1_base/build/CMakeFiles /home/amine/epita/SDL_Project/Base_Project/Project_SDL_Part1_base/build//CMakeFiles/progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/corentin/Desktop/SDL_Project/Base_Project/Project_SDL_Part1_base/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/amine/epita/SDL_Project/Base_Project/Project_SDL_Part1_base/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target

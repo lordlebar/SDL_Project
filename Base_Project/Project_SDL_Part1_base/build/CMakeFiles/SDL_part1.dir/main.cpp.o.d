@@ -1,7 +1,7 @@
 CMakeFiles/SDL_part1.dir/main.cpp.o: \
- /home/corentin/Desktop/SDL_Project/Base_Project/Project_SDL_Part1_base/main.cpp \
+ /home/amine/epita/SDL_Project/Base_Project/Project_SDL_Part1_base/main.cpp \
  /usr/include/stdc-predef.h \
- /home/corentin/Desktop/SDL_Project/Base_Project/Project_SDL_Part1_base/Project_SDL1.h \
+ /home/amine/epita/SDL_Project/Base_Project/Project_SDL_Part1_base/Project_SDL1.h \
  /usr/include/SDL2/SDL.h /usr/include/SDL2/SDL_main.h \
  /usr/include/SDL2/SDL_stdinc.h /usr/include/SDL2/SDL_config.h \
  /usr/include/x86_64-linux-gnu/SDL2/_real_SDL_config.h \
