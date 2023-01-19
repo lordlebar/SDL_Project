@@ -8,8 +8,8 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/home/corentin/Desktop/SDL_Project/Base_Project/Project_SDL_Part1_base/Project_SDL1.cpp" "CMakeFiles/SDL_part1.dir/Project_SDL1.cpp.o" "gcc" "CMakeFiles/SDL_part1.dir/Project_SDL1.cpp.o.d"
-  "/home/corentin/Desktop/SDL_Project/Base_Project/Project_SDL_Part1_base/main.cpp" "CMakeFiles/SDL_part1.dir/main.cpp.o" "gcc" "CMakeFiles/SDL_part1.dir/main.cpp.o.d"
+  "/home/amine/epita/SDL_Project/Base_Project/Project_SDL_Part1_base/Project_SDL1.cpp" "CMakeFiles/SDL_part1.dir/Project_SDL1.cpp.o" "gcc" "CMakeFiles/SDL_part1.dir/Project_SDL1.cpp.o.d"
+  "/home/amine/epita/SDL_Project/Base_Project/Project_SDL_Part1_base/main.cpp" "CMakeFiles/SDL_part1.dir/main.cpp.o" "gcc" "CMakeFiles/SDL_part1.dir/main.cpp.o.d"
   )
 
 # Targets to which this target links.
