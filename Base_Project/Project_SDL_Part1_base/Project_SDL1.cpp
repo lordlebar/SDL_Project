@@ -243,6 +243,7 @@ void wolf::addListOfSheeps(std::shared_ptr<animal> &sheep)
 void wolf::addShepherdDog(std::shared_ptr<animal> &shepherd_dog)
 {
   shepherd_dog_ = shepherd_dog;
+
 }
 
 shepherd_dog::shepherd_dog(const std::string &file_path, SDL_Surface *window_surface_ptr) : animal(file_path, window_surface_ptr, false, false) {}
@@ -364,6 +365,7 @@ std::shared_ptr<playable_character> ground::getShepherd() const
 {
   return shepherd_;
 }
+
 
 void ground::update() const
 {
