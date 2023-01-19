@@ -40,7 +40,7 @@ SDL_Surface *load_surface_for(const std::string &path, SDL_Surface *window_surfa
 
   int length = (int)path.length();
   char new_file_path[length];
-  std:strcpy(new_file_path, path.c_str());
+  strcpy(new_file_path, path.c_str());
 
   SDL_Surface *surf = SDL_ConvertSurface(IMG_Load(new_file_path), window_surface_ptr->format, 0);
   if (!surf)
@@ -145,18 +145,6 @@ wolf::~wolf()
 
 void wolf::move()
 {
-<<<<<<< Updated upstream
-    int surface_width = image_ptr_->clip_rect.w;
-    int surface_height = image_ptr_->clip_rect.h;
-    auto target = sheeps_[0];
-    float min = MAXFLOAT;
-
-    for (int i = 0; i < sheeps_.size(); i++){
-      if (sqrt( pow((posX_ - sheeps_[i]->posX_), 2) + pow((posY_ - sheeps_[i]->posY_), 2))  < min ){
-        min = sqrt( pow((posX_ - sheeps_[i]->posX_), 2) + pow((posY_ - sheeps_[i]->posY_), 2));
-        target = sheeps_[i];
-      }
-=======
   int surface_width = image_ptr_->clip_rect.w;
   int surface_height = image_ptr_->clip_rect.h;
   auto closestSheep = std::shared_ptr(sheeps_[0]);
@@ -170,7 +158,6 @@ void wolf::move()
     {
       min = sqrt(pow((posX_ - sheeps_[i]->posX_), 2) + pow((posY_ - sheeps_[i]->posY_), 2));
       closestSheep = std::shared_ptr(sheeps_[i]);
->>>>>>> Stashed changes
     }
   }
   float distance_dog = sqrt(pow((posX_ - shepherd_dog_->posX_), 2) + pow((posY_ - shepherd_dog_->posY_), 2));
@@ -225,12 +212,6 @@ void wolf::move()
       posX_ -= 0.5;
   }
 
-<<<<<<< Updated upstream
-    if (min < 50) {
-      target->~animal();
-      sheeps_.erase(std::remove(sheeps_.begin(), sheeps_.end(), target), sheeps_.end());
-    }
-=======
   if (!closestSheep->is_alive)
   {
     sheeps_.erase(std::remove(sheeps_.begin(), sheeps_.end(), closestSheep), sheeps_.end());
@@ -262,7 +243,6 @@ void wolf::addListOfSheeps(std::shared_ptr<animal> &sheep)
 void wolf::addShepherdDog(std::shared_ptr<animal> &shepherd_dog)
 {
   shepherd_dog_ = shepherd_dog;
->>>>>>> Stashed changes
 }
 
 shepherd_dog::shepherd_dog(const std::string &file_path, SDL_Surface *window_surface_ptr) : animal(file_path, window_surface_ptr, false, false) {}
@@ -380,19 +360,10 @@ std::vector<std::shared_ptr<animal>> ground::getAnimals() const
   return animals_;
 }
 
-<<<<<<< Updated upstream
-void ground::update() const {
-    for (const auto& a : animals_) {
-      if (a != nullptr) {
-          a->move();
-          a->draw();
-      };
-=======
 std::shared_ptr<playable_character> ground::getShepherd() const
 {
   return shepherd_;
 }
->>>>>>> Stashed changes
 
 void ground::update() const
 {
