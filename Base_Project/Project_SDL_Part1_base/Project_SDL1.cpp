@@ -116,8 +116,12 @@ void sheep::move()
     if (!horizontal_direction_)
       posX_ -= 0.6;
   }
-
-  if (wolfs_.size() == 0)
+  if (!target->is_alive)
+  {
+    wolfs_.erase(std::remove(wolfs_.begin(), wolfs_.end(), target), wolfs_.end());
+    std::cout << "Un loup est mort" << std::endl;
+  }
+  if (wolfs_.size() <= 0)
   {
     std::cout << "You won ! Tous les loup sont morts" << std::endl;
     exit(0);
@@ -223,7 +227,7 @@ void wolf::move()
   }
   if (min < 50)
   {
-    hunger_ += 30;
+    hunger_ += 20;
     std::cout << "Mouton mangé" << std::endl;
     sheeps_.erase(std::remove(sheeps_.begin(), sheeps_.end(), closestSheep), sheeps_.end());
     closestSheep->is_alive = false;
