@@ -1,10 +1,8 @@
 ./test_SDL/
-./Base_Project/build
-./Base_Project/Project_SDL_Part1_base/build
+./Base_Project/Project_SDL/build
 node_modules
 *.DS_Store
 test_SDL
 test_SDL.zip
 *.CMakeFiles
 *.build
-
