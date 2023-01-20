@@ -1,5 +1,0 @@
-/Users/corentin/Desktop/SDL_Project/test_SDL/build/CMakeFiles/edit_cache.dir
-/Users/corentin/Desktop/SDL_Project/test_SDL/build/CMakeFiles/rebuild_cache.dir
-/Users/corentin/Desktop/SDL_Project/test_SDL/build/SDL_Test/CMakeFiles/SDLTest.dir
-/Users/corentin/Desktop/SDL_Project/test_SDL/build/SDL_Test/CMakeFiles/edit_cache.dir
-/Users/corentin/Desktop/SDL_Project/test_SDL/build/SDL_Test/CMakeFiles/rebuild_cache.dir

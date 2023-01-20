@@ -1,5 +1,0 @@
-/home/amine/epita/SDL_Project/test_SDL - Kopie/CMakeFiles/edit_cache.dir
-/home/amine/epita/SDL_Project/test_SDL - Kopie/CMakeFiles/rebuild_cache.dir
-/home/amine/epita/SDL_Project/test_SDL - Kopie/SDL_Test/CMakeFiles/SDLTest.dir
-/home/amine/epita/SDL_Project/test_SDL - Kopie/SDL_Test/CMakeFiles/edit_cache.dir
-/home/amine/epita/SDL_Project/test_SDL - Kopie/SDL_Test/CMakeFiles/rebuild_cache.dir
