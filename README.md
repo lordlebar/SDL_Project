@@ -1,9 +1,9 @@
-## SDL_Project {Sheeps vs Wolves}
+# SDL_Project {Sheeps vs Wolves}
 
-# To Run Project
+## To Run Project
 
-  $ cd Base_Project/Project_SDL/
-  $ mkdir build && cd build
-  $ cmake .. && make
-  $ ./SDL_part1 {n_sheep} {n_wolf} {time_execution}
+    $ cd Base_Project/Project_SDL/
+    $ mkdir build && cd build
+    $ cmake .. && make
+    $ ./SDL_part1 {n_sheep} {n_wolf} {time_execution}
   
