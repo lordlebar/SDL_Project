@@ -1,3 +1,0 @@
-/home/corentin/Desktop/SDL_Project/Base_Project/Project_SDL/build/CMakeFiles/SDL_part1.dir
-/home/corentin/Desktop/SDL_Project/Base_Project/Project_SDL/build/CMakeFiles/edit_cache.dir
-/home/corentin/Desktop/SDL_Project/Base_Project/Project_SDL/build/CMakeFiles/rebuild_cache.dir
